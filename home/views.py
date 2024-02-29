@@ -4,10 +4,13 @@ from rest_framework.response import Response
 from .serializers import * 
 import pdb
 import status
+from rest_framework.parsers import MultiPartParser
 # Create your views here.
 def home(request):
     return render(request, 'home.html')
 
+def download(request, uid):
+    return render(request,'download.html',context={"uid": uid})
 class HandleFileUpload(APIView):
     print("Inside handle ")
     def post(self,request):
@@ -20,7 +23,7 @@ class HandleFileUpload(APIView):
                 return Response({
                     "status" : status.HTTP_200_OK,
                     "message": "File Uploaded",
-                    "data": serializer.data
+                    "data": serializer.instance
                     
                 })
             return Response({

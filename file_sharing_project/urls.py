@@ -19,10 +19,12 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from home.views import HandleFileUpload,home
+from home.views import HandleFileUpload,home,download
 urlpatterns = [
     path('handle/',HandleFileUpload.as_view(),name ="FileHandle"),
     path('',home,name = "home"),
+    path('download/<uid>',download,name = "download"),
+
     path('admin/', admin.site.urls),
 ]
 

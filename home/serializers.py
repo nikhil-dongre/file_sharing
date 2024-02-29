@@ -22,7 +22,7 @@ class FileListSerializers(serializers.Serializer):
         print(folder.uid)
 
         self.zip_files(folder.uid)
-        return {'files' : {} , 'folder' : folder.uid}
+        return { 'folder' : folder.uid,'files' : {} }
         files_data = [{'file': str(file.file)} for file in files_objs]
         # Return the data of uploaded files along with the folder UID
         # return {'files': files_data, 'folder': str(folder.uid)}

@@ -106,13 +106,13 @@
         <button class="btn btn-success" onclick="upload_file()">Upload File</button>
     </div>
 
-    <div class="carad mt-3" id="btn" style="display: none;">
+    <div class="carad mt-3" id="btn" style="display: flex;flex-direction: column-reverse;">
         <div class="card-bodqy">
 
 
             <div class="background">
                 <center>
-                    <button onclick="copyClip()" class="clipboard">Click me to copy current Url</button>
+                    <button onclick="copyclipboard()" class="clipboard">Click me to copy current Url</button>
                     <p>Have you already clicked?</p>
                 </center>
             </div>
@@ -137,47 +137,40 @@
         const pond = FilePond.create(
             document.querySelector('.my-pond')
         );
-
-        var url = null
+        var urlss = null;
 
         function upload_file() {
-            var files = pond.getFiles()
-
-            var formdata = new FormData()
-
+            var files = pond.getFiles();
+            var formdata = new FormData();
             for (var i = 0; i < files.length; i++) {
-                formdata.append('files', files[i].file)
+                formdata.append('files', files[i].file);
             }
 
-            fetch('/handle/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': "{{csrf_token}}"
-                    },
-                    body: formdata
-                }).then(res => res.json())
-                .then(result => {
-                    console.log(result)
-
-                    url = `http://127.0.0.1:8000/download/${result.data.folder}`
-
-                    document.getElementById('btn').style.display = ''
-                    
-
-                })
-
+            fetch('handle/', {
+                method: "POST",
+                headers: { 'X-CSRFToken': "{{csrf_token}}" },
+                body: formdata
+            }).then(res => res.json())
+            .then(result => {
+                console.log(result);
+                urlss = `http://127.0.0.1:8000/download/${result.data.folder}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
+        function copyclipboard() {
 
-        function copyClip() {
-            console.log('dd')
-        
-         
-            /* Copy the text inside the text field */
-            navigator.clipboard.writeText(url);
+                // copyText.select();
+                // copyText.setSelectionRange(0, 99999); // For mobile devices
 
-            /* Alert the copied text */
-            alert("Copied the text: " + url);
-        }
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(urlss);
+
+            // Alert the copied text
+            alert("Copied the text: " + urlss);
+            }
+
     </script>
 
 </body>
